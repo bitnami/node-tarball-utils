@@ -20,7 +20,7 @@
   "author": "Bitnami",
   "license": "GPL-2.0",
   "dependencies": {
-    "common-utils": "bitnami/common-utils#v2.0.0",
+    "common-utils": "bitnami/node-common-utils#v2.0.0",
     "nami-utils": "^0.1.0"
   },
   "devDependencies": {
