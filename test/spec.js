@@ -1,6 +1,5 @@
 'use strict';
 
-const _ = require('lodash');
 const Sandbox = require('nami-test').Sandbox;
 const spawnSync = require('child_process').spawnSync;
 const path = require('path');
