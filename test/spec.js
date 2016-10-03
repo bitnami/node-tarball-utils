@@ -1,6 +1,7 @@
 'use strict';
 
 const Sandbox = require('nami-test').Sandbox;
+const _ = require('lodash');
 const spawnSync = require('child_process').spawnSync;
 const path = require('path');
 const chai = require('chai');
@@ -34,10 +35,10 @@ describe('#tar()', () => {
     const dest = s.normalize('archive.tar.gz');
 
     tu.tar(s.normalize('folder1'), dest, {cwd: s.normalize('.')});
-
-    expect(spawnSync('tar', ['-tzf', dest]).stdout.toString(), 'Tarball content doesn\'t fit expectations').to.be
-      .eql('folder1/\nfolder1/folder2/\nfolder1/folder2/file\n' +
-      'folder1/folder2/folder3/\nfolder1/folder2/folder3/file\n');
+    const result = spawnSync('tar', ['-tzf', dest]).stdout.toString();
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n', 'folder1/folder2/folder3/\n' +
+    'folder1/folder2/folder3/file\n'];
+    _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
   });
 
   it('matches some items with a glob', () => {
@@ -52,9 +53,9 @@ describe('#tar()', () => {
     const dest = s.normalize('archive.tar.gz');
 
     tu.tar(s.normalize('folder1/**/*.js'), dest, {cwd: s.normalize('.')});
-
-    expect(spawnSync('tar', ['-tzf', dest]).stdout.toString(), 'Tarball content doesn\'t fit expectations').to.be
-      .eql('folder1/folder2/file.js\nfolder1/folder2/folder3/file.js\n');
+    const result = spawnSync('tar', ['-tzf', dest]).stdout.toString();
+    const expectedValues = ['folder1/folder2/file.js\n', 'folder1/folder2/folder3/file.js\n'];
+    _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
   });
 
   it('excludes some files', () => {
@@ -70,9 +71,9 @@ describe('#tar()', () => {
     const dest = s.normalize('archive.tar.gz');
 
     tu.tar(s.normalize('folder1'), dest, {cwd: s.normalize('.'), exclude: ['file*', 'some*']});
-
-    expect(spawnSync('tar', ['-tzf', dest]).stdout.toString(), 'Tarball content doesn\'t fit expectations').to.be
-      .eql('folder1/\nfolder1/folder2/\nfolder1/folder2/anotherfile\n');
+    const result = spawnSync('tar', ['-tzf', dest]).stdout.toString();
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/anotherfile\n'];
+    _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
   });
 
   it('disables gzip compression', () => {
@@ -87,10 +88,10 @@ describe('#tar()', () => {
     const dest = s.normalize('archive.tar');
 
     tu.tar(s.normalize('folder1'), dest, {cwd: s.normalize('.'), gzip: false});
-
-    expect(spawnSync('tar', ['-tf', dest]).stdout.toString(), 'Tarball content doesn\'t fit expectations').to.be
-      .eql('folder1/\nfolder1/folder2/\nfolder1/folder2/file\n' +
-      'folder1/folder2/folder3/\nfolder1/folder2/folder3/file\n');
+    const result = spawnSync('tar', ['-tf', dest]).stdout.toString();
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n',
+    'folder1/folder2/folder3/\n', 'folder1/folder2/folder3/file\n'];
+    _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
   });
 });
 
@@ -208,10 +209,10 @@ describe('#zip()', () => {
     const dest = s.normalize('archive.zip');
 
     tu.zip(s.normalize('folder1'), dest, {cwd: s.normalize('.'), recursive: true});
-
-    expect(spawnSync('unzip', ['-Z1', dest]).stdout.toString(), 'Zipfile content doesn\'t fit expectations').to.be
-      .eql('folder1/\nfolder1/folder2/\nfolder1/folder2/file\n' +
-      'folder1/folder2/folder3/\nfolder1/folder2/folder3/file\n');
+    const result = spawnSync('unzip', ['-Z1', dest]).stdout.toString();
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\nfolder1/folder2/file\n',
+    'folder1/folder2/folder3/\n', 'folder1/folder2/folder3/file\n'];
+    _.each(expectedValues, value => expect(result, 'Zipfile content doesn\'t fit expectations').to.contain(value));
   });
 });
 
