@@ -36,7 +36,7 @@ describe('#tar()', () => {
 
     tu.tar(s.normalize('folder1'), dest, {cwd: s.normalize('.')});
     const result = spawnSync('tar', ['-tzf', dest]).stdout.toString();
-    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n', 'folder1/folder2/folder3/\n' +
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n', 'folder1/folder2/folder3/\n',
     'folder1/folder2/folder3/file\n'];
     _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
   });
@@ -210,7 +210,7 @@ describe('#zip()', () => {
 
     tu.zip(s.normalize('folder1'), dest, {cwd: s.normalize('.'), recursive: true});
     const result = spawnSync('unzip', ['-Z1', dest]).stdout.toString();
-    const expectedValues = ['folder1/\n', 'folder1/folder2/\nfolder1/folder2/file\n',
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n',
     'folder1/folder2/folder3/\n', 'folder1/folder2/folder3/file\n'];
     _.each(expectedValues, value => expect(result, 'Zipfile content doesn\'t fit expectations').to.contain(value));
   });
