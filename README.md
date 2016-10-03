@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/bitnami/node-tarball-utils.svg?branch=master)](http://travis-ci.org/bitnami/node-tarball-utils)
+
 # Tarball Utils
 
 This package contains a set of functions for dealing with tarball archives.
