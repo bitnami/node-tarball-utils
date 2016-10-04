@@ -9,7 +9,7 @@ const find = require('common-utils').find;
 
 /**
  * Create tar file
- * @param  {string} dir - Glob expression for aim directory
+ * @param  {string|string[]} dir - Glob expression (or array of them) for aim directory
  * @param  {string} tarFile - Target tar file
  * @param  {Object} [options]
  * @param  {string} [options.cwd=null] - Directory where the command is executed
