@@ -9,7 +9,7 @@ const find = require('common-utils').find;
 
 /**
  * Create tar file
- * @param  {string} dir - Glob expression for aim directory
+ * @param  {string|string[]} dir - Glob expression (or array of them) for aim directory
  * @param  {string} tarFile - Target tar file
  * @param  {Object} [options]
  * @param  {string} [options.cwd=null] - Directory where the command is executed
@@ -22,8 +22,10 @@ function tar(dir, tarFile, options) {
   options.exclude = _.toArrayIfNeeded(options.exclude);
 
   let files = nfile.glob(dir);
-  if (options.cwd && _.startsWith(dir, options.cwd)) {
-    files = _.map(files, f => nfile.relativize(f, options.cwd));
+  if (options.cwd) {
+    files = _.map(files, f => {
+      return _.startsWith(f, options.cwd) ? nfile.relativize(f, options.cwd) : f;
+    });
     options.exclude = _.map(options.exclude, f => nfile.relativize(f, options.cwd));
   }
 

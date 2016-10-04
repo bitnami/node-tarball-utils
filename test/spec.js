@@ -41,6 +41,38 @@ describe('#tar()', () => {
     _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
   });
 
+  it('packs files relatizing to cwd', () => {
+    s.createFilesFromManifest({
+      folder1: {
+        folder2: {
+          folder3: {file: ''}
+        }
+      }
+    });
+    const dest = s.normalize('archive.tar.gz');
+
+    tu.tar(s.normalize('folder1/folder2/folder3/file'), dest, {cwd: s.normalize('folder1/folder2')});
+
+    expect(spawnSync('tar', ['-tzf', dest]).stdout.toString(), 'Tarball content doesn\'t fit expectations').to.be
+      .eql('folder3/file\n');
+  });
+
+  it('packs folder relatizing to cwd', () => {
+    s.createFilesFromManifest({
+      folder1: {
+        folder2: {
+          folder3: {file: ''}
+        }
+      }
+    });
+    const dest = s.normalize('archive.tar.gz');
+
+    tu.tar(s.normalize('folder1/folder2/folder3'), dest, {cwd: s.normalize('folder1/folder2')});
+
+    expect(spawnSync('tar', ['-tzf', dest]).stdout.toString(), 'Tarball content doesn\'t fit expectations').to.be
+      .eql('folder3/\nfolder3/file\n');
+  });
+
   it('matches some items with a glob', () => {
     s.createFilesFromManifest({
       folder1: {
