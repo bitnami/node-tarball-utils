@@ -1,6 +1,6 @@
 {
   "name": "tarball-utils",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Utils for working with tarballs",
   "main": "index.js",
   "scripts": {

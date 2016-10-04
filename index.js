@@ -22,8 +22,10 @@ function tar(dir, tarFile, options) {
   options.exclude = _.toArrayIfNeeded(options.exclude);
 
   let files = nfile.glob(dir);
-  if (options.cwd && _.startsWith(dir, options.cwd)) {
-    files = _.map(files, f => nfile.relativize(f, options.cwd));
+  if (options.cwd) {
+    files = _.map(files, f => {
+      return _.startsWith(f, options.cwd) ? nfile.relativize(f, options.cwd) : f;
+    });
     options.exclude = _.map(options.exclude, f => nfile.relativize(f, options.cwd));
   }
 
