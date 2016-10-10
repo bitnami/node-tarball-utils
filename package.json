@@ -20,11 +20,11 @@
   "author": "Bitnami",
   "license": "GPL-2.0",
   "dependencies": {
-    "common-utils": "bitnami/node-common-utils#v2.0.0",
+    "common-utils": "bitnami/node-common-utils#v2.0.1",
     "nami-utils": "^0.1.0"
   },
   "devDependencies": {
-    "bitnami-gulp-common-tasks": "bitnami/gulp-common-tasks#v2.0.3",
+    "bitnami-gulp-common-tasks": "bitnami/gulp-common-tasks#v2.0.4",
     "chai": "^3.5.0",
     "chai-fs": "^0.1.0",
     "eslint": "^2.11.1",
