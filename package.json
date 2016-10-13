@@ -8,7 +8,8 @@
     "lint": "gulp lint",
     "test": "gulp test",
     "ci-test": "gulp ci-test",
-    "ci-lint": "gulp ci-lint"
+    "ci-lint": "gulp ci-lint",
+    "ci-cpd": "gulp ci-cpd"
   },
   "keywords": [
     "tarball"
