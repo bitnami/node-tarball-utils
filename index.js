@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('nami-utils/lodash-extra');
+const _ = require('lodash');
 const runProgram = require('nami-utils').os.runProgram;
 const fs = require('fs-extra');
 const path = require('path');
@@ -14,12 +14,12 @@ const find = require('common-utils').find;
  * @param  {Object} [options]
  * @param  {string} [options.cwd=null] - Directory where the command is executed
  * @param  {boolean} [options.gzip=true] - Apply gzip compression
- * @param  {string[]} [options.exclude=['.git']] - Files to exclude in the tarball
+ * @param  {string[]} [options.exclude=[]] - Files to exclude in the tarball
  * @param  {string[]} [options.logger=null] - If provided, the output will be logged using this logger
  */
 function tar(dir, tarFile, options) {
-  options = _.opts(options, {cwd: null, gzip: true, mode: 'c', exclude: ['.git'], logger: null});
-  options.exclude = _.toArrayIfNeeded(options.exclude);
+  options = _.defaults({}, options, {cwd: null, gzip: true, mode: 'c', exclude: [], logger: null});
+  options.exclude = _.isArray(options.exclude) ? options.exclude : [options.exclude];
 
   let files = nfile.glob(dir);
   if (options.cwd) {
@@ -57,11 +57,11 @@ function tar(dir, tarFile, options) {
  * @param  {string} tarFile - Tar file to extract
  * @param  {string} destination - Destination directory
  * @param  {Object} [options]
- * @param  {string[]} [options.exclude=['.git']] - Files to exclude in the extraction
+ * @param  {string[]} [options.exclude=[]] - Files to exclude in the extraction
  * @param  {string[]} [options.stripComponents=0] - Number of directory folders to strip
  */
 function untar(tarFile, destination, options) {
-  options = _.opts(options, {exclude: ['.git'], stripComponents: 0});
+  options = _.defaults({}, options, {exclude: [], stripComponents: 0});
   let tarOpts = [];
 
   _.each(options.exclude, f => tarOpts.push(`--exclude=${f}`));
@@ -83,7 +83,7 @@ function untar(tarFile, destination, options) {
  * @param  {string} [options.recursive=false] - Recurse into directories
  */
 function zip(source, destination, options) {
-  options = _.opts(options, {cwd: null, recursive: false});
+  options = _.defaults({}, options, {cwd: null, recursive: false});
 
 
   let files = nfile.glob(source);
@@ -105,7 +105,7 @@ function zip(source, destination, options) {
  * @param  {boolean} [options.force=false] - Override output if exists
  */
 function unzip(zipFile, destination, options) {
-  options = _.opts(options, {force: false});
+  options = _.defaults({}, options, {force: false});
 
   const unzipOpts = ['-q', zipFile, '-d', destination];
 
@@ -161,7 +161,7 @@ function _getUniqueFile(file) {
  * (file or directory)
  */
 function unpack(file, destination, options) {
-  options = _.opts(options, {reRoot: false, force: false});
+  options = _.defaults({}, options, {reRoot: false, force: false});
   if (options.reRoot) {
     if (nfile.exists(destination)) {
       if (options.force) {

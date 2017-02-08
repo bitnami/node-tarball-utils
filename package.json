@@ -1,6 +1,6 @@
 {
   "name": "tarball-utils",
-  "version": "2.0.4",
+  "version": "3.0.0",
   "description": "Utils for working with tarballs",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,7 @@
   "license": "GPL-2.0",
   "dependencies": {
     "common-utils": "bitnami/node-common-utils#v2.0.2",
+    "lodash": "^4.17.4",
     "nami-utils": "^0.2.0"
   },
   "devDependencies": {

@@ -105,6 +105,24 @@ describe('#tar()', () => {
       .eql('folder3/\nfolder3/file\n');
   });
 
+  it('packs an entire directory including .git folder by default', () => {
+    s.createFilesFromManifest({
+      folder1: {
+        folder2: {
+          '.git': {file: ''},
+          file: ''
+        }
+      }
+    });
+    const dest = s.normalize('archive.tar.gz');
+
+    tu.tar(s.normalize('folder1'), dest, {cwd: s.normalize('.')});
+    const result = spawnSync('tar', ['-tzf', dest]).stdout.toString();
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n', 'folder1/folder2/.git/\n',
+    'folder1/folder2/.git/file\n'];
+    _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
+  });
+
   it('matches some items with a glob', () => {
     s.createFilesFromManifest({
       folder1: {
@@ -211,6 +229,44 @@ describe('#untar()', () => {
     expect(path.join(dest, 'folder1/folder2/file')).to.be.a.file();
     expect(path.join(dest, 'folder1/folder2/file2')).not.to.be.a.path();
     expect(path.join(dest, 'folder1/folder2/file3')).not.to.be.a.path();
+  });
+
+  it('exclude a file (using a string)', () => {
+    s.createFilesFromManifest({
+      folder1: {
+        folder2: {
+          file: '',
+          somefile: ''
+        }
+      },
+      destination: {}
+    });
+    const dest = s.normalize('archive.tar.gz');
+    tu.tar(s.normalize('folder1'), dest, {cwd: s.normalize('.'), exclude: 'somefile'});
+
+    const result = spawnSync('tar', ['-tf', dest]).stdout.toString();
+    const expectedValues = ['folder1/\n', 'folder1/folder2/\n', 'folder1/folder2/file\n'];
+    _.each(expectedValues, value => expect(result, 'Tarball content doesn\'t fit expectations').to.contain(value));
+    expect(result, 'Tarball content doesn\'t fit expectations').to.not.contain('folder1/folder2/somefile');
+  });
+
+  it('includes .git folder by default', () => {
+    s.createFilesFromManifest({
+      folder1: {
+        '.git': {
+          file: ''
+        }
+      },
+      destination: {}
+    });
+    const archive = 'archive.tar.gz';
+    const dest = s.normalize('destination');
+    spawnSync('tar', ['-czf', archive, 'folder1'], {cwd: s.normalize('.')});
+
+    tu.untar(archive, dest, {cwd: s.normalize('.')});
+    expect(path.join(dest, 'folder1')).to.be.a.directory();
+    expect(path.join(dest, 'folder1/.git')).to.be.a.directory();
+    expect(path.join(dest, 'folder1/.git/file')).to.be.a.file();
   });
 
   it('strips components', () => {
