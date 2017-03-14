@@ -425,6 +425,25 @@ describe('#unpack()', () => {
     expect(path.join(dest, 'folder1/folder2/file')).to.be.a.file();
   });
 
+  it('unpacks a tar.xz archive', () => {
+    s.createFilesFromManifest({
+      folder1: {
+        folder2: {
+          file: ''
+        }
+      },
+      destination: {}
+    });
+    const archive = 'archive.tar.xz';
+    const dest = s.normalize('destination');
+    spawnSync('tar', ['-cJf', archive, 'folder1'], {cwd: s.normalize('.')});
+
+    tu.unpack(archive, dest, {cwd: s.normalize('.')});
+    expect(path.join(dest, 'folder1')).to.be.a.directory();
+    expect(path.join(dest, 'folder1/folder2')).to.be.a.directory();
+    expect(path.join(dest, 'folder1/folder2/file')).to.be.a.file();
+  });
+
   it('unpacks a zip archive', () => {
     s.createFilesFromManifest({
       folder1: {
@@ -474,12 +493,12 @@ describe('#unpack()', () => {
 
 describe('#getTarballRegexp()', () => {
   it('generates a regexp for a tarball name', () => {
-    expect(tu.getTarballRegexp('mytarball')).to.be.eql(/mytarball\.(tar.gz|tgz|zip|tar|tar|bz2|war|jar)$/m);
+    expect(tu.getTarballRegexp('mytarball')).to.be.eql(/mytarball\.(tar.gz|tgz|tar.xz|zip|tar|tar|bz2|war|jar)$/m);
   });
 
   it('generates a regexp for a name and version', () => {
     expect(tu.getTarballRegexp('myapp', '1.0.1')).to.be
-      .eql(/myapp[-_\.]*1\.0\.1\.(tar.gz|tgz|zip|tar|tar|bz2|war|jar)$/m);
+      .eql(/myapp[-_\.]*1\.0\.1\.(tar.gz|tgz|tar.xz|zip|tar|tar|bz2|war|jar)$/m);
   });
 });
 

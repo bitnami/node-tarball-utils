@@ -68,7 +68,7 @@ function untar(tarFile, destination, options) {
 
   if (options.stripComponents > 0) tarOpts.push(`--strip-components=${options.stripComponents}`);
 
-  tarOpts = tarOpts.concat(['-C', destination, '-xzf', tarFile]);
+  tarOpts = tarOpts.concat(['-C', destination, '-xf', tarFile]);
 
   runProgram('tar', tarOpts, options);
 }
@@ -119,7 +119,7 @@ function _unpack(file, destination, options) {
   nfile.mkdir(destination);
   let compression = null;
   _.each({
-    tgz: ['.tar.gz', '.tgz'],
+    tgz: ['.tar.gz', '.tgz', '.tar.xz'],
     zip: ['.zip', '.war', '.jar']
   }, function(extensions, compressionType) {
     if (_.some(extensions, extension => _.endsWith(file, extension))) {
@@ -212,7 +212,7 @@ function getTarballRegexp(name, version) {
   }
 
   /* eslint-disable no-useless-escape */
-  const tarballExtenssions = ['tar\.gz', 'tgz', 'zip', 'tar', 'tar', 'bz2', 'war', 'jar'];
+  const tarballExtenssions = ['tar\.gz', 'tgz', 'tar\.xz', 'zip', 'tar', 'tar', 'bz2', 'war', 'jar'];
   const separators = ['-', '_', '\.'];
   /* eslint-enable no-useless-escape */
 
