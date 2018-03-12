@@ -463,7 +463,6 @@ describe('#unpack()', () => {
     expect(path.join(dest, 'folder1/folder2/file')).to.be.a.file();
   });
 
-
   it('avoid reRoot if the content is a single file', () => {
     s.createFilesFromManifest({
       file: 'foobar',
@@ -475,8 +474,6 @@ describe('#unpack()', () => {
     tu.unpack(archive, dest, {cwd: s.normalize('.'), reRoot: true});
     expect(path.join(dest, 'file')).to.be.a.file();
   });
-
-
 
   it('overrides existing directory', () => {
     s.createFilesFromManifest({
@@ -505,7 +502,6 @@ describe('#unpack()', () => {
   });
 });
 
-
 describe('#getTarballRegexp()', () => {
   it('generates a regexp for a tarball name', () => {
     expect(tu.getTarballRegexp('mytarball')).to.be.eql(/mytarball\.(tar.gz|tgz|tar.xz|zip|tar|tar|bz2|war|jar)$/m);
@@ -516,7 +512,6 @@ describe('#getTarballRegexp()', () => {
       .eql(/myapp[-_\.]*1\.0\.1\.(tar.gz|tgz|tar.xz|zip|tar|tar|bz2|war|jar)$/m);
   });
 });
-
 
 describe('#findTarball()', () => {
   let s = null;
