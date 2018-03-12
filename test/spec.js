@@ -469,6 +469,7 @@ describe('#unpack()', () => {
     });
     const archive = 'archive.zip';
     const dest = s.normalize('destination');
+
     spawnSync('zip', ['-r', archive, 'file'], {cwd: s.normalize('.')});
 
     tu.unpack(archive, dest, {cwd: s.normalize('.'), reRoot: true});
