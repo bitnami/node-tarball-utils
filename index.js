@@ -174,7 +174,7 @@ function unpack(file, destination, options) {
     const tmpDest = _getUniqueFile(`${destination.replace(/\/*$/, '')}.tmp`);
     _unpack(file, tmpDest, options);
     const contents = fs.readdirSync(tmpDest);
-    if (contents.length === 1) {
+    if (contents.length === 1 && fs.statSync(path.join(tmpDest, contents[0])).isDirectory()) {
       nfile.rename(path.join(tmpDest, contents[0]), destination);
       nfile.delete(tmpDest);
     } else {
