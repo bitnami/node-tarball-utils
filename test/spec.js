@@ -463,6 +463,21 @@ describe('#unpack()', () => {
     expect(path.join(dest, 'folder1/folder2/file')).to.be.a.file();
   });
 
+
+  it('avoid reRoot if the content is a single file', () => {
+    s.createFilesFromManifest({
+      file: 'foobar',
+    });
+    const archive = 'archive.zip';
+    const dest = s.normalize('destination');
+    spawnSync('zip', ['-r', archive, 'file'], {cwd: s.normalize('.')});
+
+    tu.unpack(archive, dest, {cwd: s.normalize('.'), reRoot: true});
+    expect(path.join(dest, 'file')).to.be.a.file();
+  });
+
+
+
   it('overrides existing directory', () => {
     s.createFilesFromManifest({
       folder1: {
