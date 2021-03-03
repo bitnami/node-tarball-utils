@@ -119,7 +119,7 @@ function _unpack(file, destination, options) {
   nfile.mkdir(destination);
   let compression = null;
   _.each({
-    tgz: ['.tar.gz', '.tgz', '.tar.xz'],
+    tgz: ['.tar.gz', '.tar', '.tgz', '.tar.xz'],
     zip: ['.zip', '.war', '.jar']
   }, function(extensions, compressionType) {
     if (_.some(extensions, extension => _.endsWith(file, extension))) {
