@@ -505,12 +505,12 @@ describe('#unpack()', () => {
 
 describe('#getTarballRegexp()', () => {
   it('generates a regexp for a tarball name', () => {
-    expect(tu.getTarballRegexp('mytarball')).to.be.eql(/mytarball\.(tar.gz|tgz|tar.xz|zip|tar|tar|bz2|war|jar)$/m);
+    expect(tu.getTarballRegexp('mytarball')).to.be.eql(/mytarball\.(tar.gz|tgz|tar.xz|zip|tar|bz2|war|jar)$/m);
   });
 
   it('generates a regexp for a name and version', () => {
     expect(tu.getTarballRegexp('myapp', '1.0.1')).to.be
-      .eql(/myapp[-_\.]*1\.0\.1\.(tar.gz|tgz|tar.xz|zip|tar|tar|bz2|war|jar)$/m);
+      .eql(/myapp[-_\.]*1\.0\.1\.(tar.gz|tgz|tar.xz|zip|tar|bz2|war|jar)$/m);
   });
 });
 
