@@ -119,7 +119,7 @@ function _unpack(file, destination, options) {
   nfile.mkdir(destination);
   let compression = null;
   _.each({
-    tgz: ['.tar.gz', '.tar', '.tgz', '.tar.xz'],
+    tar: ['.tar.gz', '.tar', '.tgz', '.tar.xz'],
     zip: ['.zip', '.war', '.jar']
   }, function(extensions, compressionType) {
     if (_.some(extensions, extension => _.endsWith(file, extension))) {
@@ -128,7 +128,7 @@ function _unpack(file, destination, options) {
     }
   });
   switch (compression) {
-    case 'tgz':
+    case 'tar':
       untar(file, destination, options);
       break;
     case 'zip':
@@ -212,7 +212,7 @@ function getTarballRegexp(name, version) {
   }
 
   /* eslint-disable no-useless-escape */
-  const tarballExtenssions = ['tar\.gz', 'tgz', 'tar\.xz', 'zip', 'tar', 'tar', 'bz2', 'war', 'jar'];
+  const tarballExtenssions = ['tar\.gz', 'tgz', 'tar\.xz', 'zip', 'tar', 'bz2', 'war', 'jar'];
   const separators = ['-', '_', '\.'];
   /* eslint-enable no-useless-escape */
 
