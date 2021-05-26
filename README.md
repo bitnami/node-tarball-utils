@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/bitnami/node-tarball-utils.svg?branch=master)](http://travis-ci.org/bitnami/node-tarball-utils)
+[![Build Status](https://github.com/bitnami/node-tarball-utils/actions/workflows/main.yml/badge.svg)](https://github.com/bitnami/node-tarball-utils/actions/workflows/main.yml)
 
 # Tarball Utils
 
